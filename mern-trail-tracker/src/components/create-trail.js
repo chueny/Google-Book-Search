@@ -1,65 +1,91 @@
-import React, { Component } from "react";
+import React, { Component, createContext, useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios';
 import "./bookContainer.css";
+import TrailContext from "./components/TrailContext";
+import TrailName from "./components/Pages/trailName"; 
 
 class CreateTrails extends Component {
   
-   
-  constructor(props) {
-    super(props);
+  //use this for the page that asks for title of recipe only? { name } = useContext(TrailContext);
+  //otherwise use something like the one below:
 
-    this.onChangeUsername = this.onChangeUsername.bind(this);
-    this.onChangeDescription = this.onChangeDescription.bind(this);
-    this.onChangeDistance = this.onChangeDistance.bind(this);
-    this.onChangeDate = this.onChangeDate.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+  const [trailState, setTailState] = useState({
+    username: "",
+    description: "",
+    distance: "",
+    date: new Date(),
+    users: [],
+  });
+  
+  // constructor(props) {
+  //   super(props);
 
-    this.state = {
-      username: "",
-      description: "",
-      distance: "",
-      date: new Date(),
-      users: [],
-    };
-  }
+  //   this.onChangeUsername = this.onChangeUsername.bind(this);
+  //   this.onChangeDescription = this.onChangeDescription.bind(this);
+  //   this.onChangeDistance = this.onChangeDistance.bind(this);
+  //   this.onChangeDate = this.onChangeDate.bind(this);
+  //   this.onSubmit = this.onSubmit.bind(this);
 
-  componentDidMount() {
+  //   this.state = {
+  //     username: "",
+  //     description: "",
+  //     distance: "",
+  //     date: new Date(),
+  //     users: [],
+  //   };
+  // }
+
+  // componentDidMount() {
+
+  useEffect (()=> {
     axios.get('http://localhost:5000/users/')
     .then(res => {
       if (res.data.length > 0){
-        this.setState({
-          users: res.data.map(user => user.username),
-          username: res.data[0].username
-        })
+       setTrailState({
+        // this.setState({
+         users: res.data.map(user => user.username),
+         username: res.data[0].username
+      })
       }
     })
-  }
+  }, []);/// NEED DEPENDCY
 
   onChangeUsername(e) {
-    this.setState({
+    //this.setState({
+      setTrailState({
+        ...trailState,
       username: e.target.value,
     });
   }
 
   onChangeDescription(e) {
-    this.setState({
+    // this.setState({
+      setTrailState({
+        ...trailState,
       description: e.target.value,
     });
   }
 
   onChangeDistance(e) {
-    this.setState({
+    // this.setState({
+      setTrailState,
       distance: e.target.value,
     });
   }
 
   onChangeDate(date) {
-    this.setState({
+    // this.setState({
+      setTrailState({
+        ...setTrailState,
       date: date,
     });
   }
+
+
+  //HOW DO I HANDLE ON SUBMIT FOR EACH PAGE???? 
+  //HOW DO I SEND INFO EACH INFO TO THE BACKEND?? 
 
   onSubmit(e) {
     e.preventDefault();
@@ -101,7 +127,8 @@ class CreateTrails extends Component {
               })}
             </select>
           </div>
-          <div className="form-group">
+          <TrailName  />
+          {/* <div className="form-group">
             <label>Description:</label>
             <input
               type="text"
@@ -110,7 +137,7 @@ class CreateTrails extends Component {
               value={this.state.description}
               onChange={this.onChangeDescription}
             />
-          </div>
+          </div> */}
           <div className="form-group">
             <label>Distance (in miles):</label>
             <input
@@ -142,6 +169,5 @@ class CreateTrails extends Component {
       </div>
     );
   }
-}
 
 export default CreateTrails;
