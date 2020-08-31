@@ -1,0 +1,28 @@
+.sectionContainer {
+  margin-top: 20px;
+  margin-left: 30px;
+  margin-right: 30px;
+  padding: 20px;
+  border: 2px solid black;
+}
+
+
+.form-control{
+margin-top: 15px;
+}
+
+.btn {
+  display: block;
+  margin-top: 7px;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.bookContainer{
+  border: 1px solid black;
+  padding: 7px;
+}
+
+.resultImg {
+margin-top: 15px;
+}
